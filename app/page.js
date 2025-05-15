@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 import styles from '../styles/Home.module.css';
 
@@ -19,13 +20,14 @@ export default function Home() {
       method: 'POST',
       body: formData,
     });
+
     const data = await res.json();
     setResult(data);
 
-    const containsTank = JSON.stringify(data).toLowerCase().includes("czołg") || JSON.stringify(data).toLowerCase().includes("tank");
+    const containsTank = JSON.stringify(data).toLowerCase().includes("tank") || JSON.stringify(data).toLowerCase().includes("tanks");
     if (containsTank) {
       setShowTank(true);
-      setTimeout(() => setShowTank(false), 8000); // schowaj po animacji
+      setTimeout(() => setShowTank(false), 8000);
     }
   };
 

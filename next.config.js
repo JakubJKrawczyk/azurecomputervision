@@ -1,3 +1,6 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {};
+
 module.exports = {
   env: {
     AZURE_ENDPOINT: process.env.AZURE_ENDPOINT,
