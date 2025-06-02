@@ -4,6 +4,7 @@ export async function POST(req) {
   try {
     const formData = await req.formData();
     const file = formData.get('image');
+    const features = formData.get('features') || 'Objects,Description';
 
     if (!file || !file.arrayBuffer) {
       return NextResponse.json({ error: 'Brak pliku lub nieprawidłowy format' }, { status: 400 });
@@ -15,15 +16,15 @@ export async function POST(req) {
     const azureKey = process.env.AZURE_API_KEY;
 
     const response = await fetch(
-      `${azureEndpoint}/vision/v3.2/analyze?visualFeatures=Objects,Description`,
-      {
-        method: 'POST',
-        headers: {
-          'Ocp-Apim-Subscription-Key': azureKey,
-          'Content-Type': 'application/octet-stream',
-        },
-        body: imageBuffer,
-      }
+        `${azureEndpoint}/vision/v3.2/analyze?features=${encodeURIComponent(features)}`,
+        {
+          method: 'POST',
+          headers: {
+            'Ocp-Apim-Subscription-Key': azureKey,
+            'Content-Type': 'application/octet-stream',
+          },
+          body: imageBuffer,
+        }
     );
 
     if (!response.ok) {
